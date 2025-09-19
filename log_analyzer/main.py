@@ -1,5 +1,7 @@
 import os
+import sys
 import yaml
+import argparse
 
 def load_config(config_path):
     try:
@@ -43,27 +45,42 @@ def generate_report(pattern_counts, config):
             for pattern in pattern_counts:
                 print(f"Found {pattern} :{pattern_counts[pattern]}", file=out_file)
         return out_file_path
+
     except IOError as e:
         print(f"\nThere was a problem attempting to write to the file path: {out_file_path}\nError: {e}\n\n")
+        return None
 
     except PermissionError as e:        
         print(f"\nOutput file seems to be inaccessible to your permissions...\nError: {e}\n\n")
+        return None
 
 if __name__ == "__main__":
-    current_wd = os.path.dirname(__file__)
-    config_dir_path = os.path.join(current_wd, '../config/')
-    config_file_path = os.path.join(config_dir_path, 'config.yaml')
-    config_dict_final = load_config(config_file_path)
 
-    load_config(os.path.join(config_dir_path, 'nonexistent'))
-    load_config(os.path.join(config_dir_path, 'broken_config.yaml'))
+    parser = argparse.ArgumentParser(description='Analyze log files for specific pattern.')
+    parser.add_argument('--config', help='Points application to the full filepath of the specified configuration file.')
+    args = parser.parse_args()
 
-    result_dict_text = analyze_log(config_dict_final)
+    if args.config:
+        config_path = args.config
+    else:
+        current_wd = os.path.dirname(__file__)
+        config_path = os.path.join(current_wd, '../config/config.yaml')
 
-    result_output = generate_report(result_dict_text, config_dict_final)
+    config = load_config(config_path)
 
-    print(f"Report generated at {config_dict_final['report_output']}.")
+    if config is None:
+        print("Error: Configuration failed to load. Exiting application now.")
+        sys.exit(1)
+    
+    result_dict_text = analyze_log(config)
+    if results:
+        generate_report(result_dict_text, config)
+        print(f"Report generated at {config['report_output']}.")
 
-    print(f"\nThese are the current config options:\n---\n{config_dict_final}\n\n")
+    try:
+        os.path.exists(config['report_output'])
+        print(f"Report generated at {config['report_output']}.")
+    except Exception as e:
+        print(f"There was a problem in writing your report...")
 
     print(f"\nThese are the counts of searched patterns found:\n---\n{result_dict_text}")

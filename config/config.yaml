@@ -3,4 +3,4 @@ report_output: /etc/loganalysis/report.txt
 patterns:
   - "ERROR"
   - "CRITICAL"
-  - "Failed password"
+  - 'sshd\[\d+\]: Failed password'

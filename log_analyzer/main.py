@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import yaml
 import argparse
@@ -26,7 +27,7 @@ def analyze_log(config):
         with open(log_file_path, 'r') as readable_logs:
             for line_number, line_content in enumerate(readable_logs, 1):
                 for indi_pattern in config['patterns']:
-                    if indi_pattern in line_content:
+                    if re.search(indi_pattern, line_content):
                         pattern_counts[indi_pattern] += 1
     except FileNotFoundError as e:
         print(f"\nLog file not found at {config['log_file']}\nError: {e}\n\n")

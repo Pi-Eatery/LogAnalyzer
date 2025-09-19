@@ -11,6 +11,4 @@ def load_config(config_path):
     except yaml.YAMLError as e:
         print(f"The file you requested seems to be malformed...\nError: {e}")
         return None
-        return config
-    return None
-
+    return config

@@ -73,14 +73,6 @@ if __name__ == "__main__":
         sys.exit(1)
     
     result_dict_text = analyze_log(config)
-    if results:
+    if result_dict_text:
         generate_report(result_dict_text, config)
         print(f"Report generated at {config['report_output']}.")
-
-    try:
-        os.path.exists(config['report_output'])
-        print(f"Report generated at {config['report_output']}.")
-    except Exception as e:
-        print(f"There was a problem in writing your report...")
-
-    print(f"\nThese are the counts of searched patterns found:\n---\n{result_dict_text}")

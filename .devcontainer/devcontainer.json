@@ -6,7 +6,7 @@
       "extensions": [
         "ms-python.python",
         "redhat.vscode-yaml",
-        "njpwerner.autodocstring"
+        "njpwerner.autodocstring",
         "vscode.vim"
       ]
     }

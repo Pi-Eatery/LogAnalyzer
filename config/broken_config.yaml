@@ -1,0 +1,3 @@
+log_file: /var/log/syslog
+report_output /home/user/log_reports/report.txt
+- patterns:

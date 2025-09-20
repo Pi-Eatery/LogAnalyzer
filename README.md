@@ -37,7 +37,7 @@ A simple log analyzer tool that processes log files and generates summary report
    ```
 4. Run the log analyzer:
    ```
-   python log_analyzer.py --config config.yaml 
+   python log_analyzer/main.py --config config.yaml 
    ## OR
-   python log_analyzer.py
+   python log_analyzer/main.py
    ```
